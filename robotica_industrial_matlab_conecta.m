@@ -1,0 +1,20 @@
+function [arduino] = robotica_industrial_matlab_conecta(porta, baudps)
+
+
+arduino = serial(porta);
+set(set(arduino,'DataBits',8);
+set(arduino,'StopBits',1);
+set(arduino,'BaudRate',baudps);
+set(arduino,'Parity','none');
+fopen(arduino);
+flag_con = 'conectou?';
+while(flag_con~='c')
+    flag_con = fread(arduino,1,'uchar');
+end;
+if(flag_con=='c')
+    disp('Conexao Efetuada');
+end;
+fprintf(arduino, '%c', 'c');
+mbox = msgbox('Setar a Comunicação Serial'); 
+uiwait(mbox);
+
