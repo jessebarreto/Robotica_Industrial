@@ -17,6 +17,8 @@
 class stepperMotor
 {
   private:
+	unsigned int sps = 500; //Steps per Second
+	//Arduino Pins being used to connect the motor driver
 	char bobbin1 = 10;
     char bobbin2 = 11;
     char bobbin3 = 12;
@@ -271,41 +273,57 @@ void action(double angle)
 }//end of the function action
 
   public:
-    void run(double angle){
-      action(angle);
-    }// end of the function run
+	void run(double angle)
+	{
+	  action(angle);
+	}// end of the function run
 
-    void setrotation_dir(boolean state){
-      rotation_dir = state;
+    void setrotation_dir(boolean state)
+    {
+    	rotation_dir = state;
     }//end of the function setrotation_dir
 
-    void setFullStep(boolean state){
-      fullStep = state;
+    void setFullStep(boolean state)
+    {
+    	fullStep = state;
     }//end of the function setFullStep
 
-    void increaseSpeed(){
-      if(delay_ms > 2){
-        delay_ms--;
-      }//end of if
+    void increaseSpeed()
+    {
+		if(delay_ms > 2)
+		{
+			delay_ms--;
+			sps = 1000/delay_ms;
+		}
     }//end of the function increaseSpeed
 
-    void reduceSpeed(){
-      delay_ms++;
+    void reduceSpeed()
+    {
+    	delay_ms++;
+    	sps = 1000/delay_ms;
     }//end of the function reduceSpeed
 
-    //This function will receive the doors where the bobbins are conected to the Arduino and set it
-    void setPins(int pin1, int pin2, int pin3, int pin4){
-      bobbin1 = pin1;
-      bobbin2 = pin2;
-      bobbin3 = pin3;
-      bobbin4 = pin4;
+    void set_sps(unsigned int new_sps)
+	{
+		sps = new_sps;
+		delay_ms = 1000/sps;
+		delay_ms = fullStep ? delay_ms : delay_ms/2;
+	}
 
-      //all the bobbins are setted as OUTPUT
-      pinMode(bobbin1,OUTPUT);
-      pinMode(bobbin2,OUTPUT);
-      pinMode(bobbin3,OUTPUT);
-      pinMode(bobbin4,OUTPUT);
-    }//end of the function setPins
+    //This function will receive the doors where the bobbins are conected to the Arduino and set it
+    void setPins(int pin1, int pin2, int pin3, int pin4)
+    {
+		bobbin1 = pin1;
+		bobbin2 = pin2;
+		bobbin3 = pin3;
+		bobbin4 = pin4;
+
+		//all the bobbins are setted as OUTPUT
+		pinMode(bobbin1,OUTPUT);
+		pinMode(bobbin2,OUTPUT);
+		pinMode(bobbin3,OUTPUT);
+		pinMode(bobbin4,OUTPUT);
+	}//end of the function setPins
 };//end of the class
 
 #endif /* MOTOR_PASSO_H_ */
