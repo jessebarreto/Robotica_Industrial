@@ -3,7 +3,7 @@ function [arduino] = robotica_industrial_matlab_conecta(porta, baudps)
 
 
 arduino = serial(porta);
-set(arduino,'DataBits',8);
+set(set(arduino,'DataBits',8);
 set(arduino,'StopBits',1);
 set(arduino,'BaudRate',baudps);
 set(arduino,'Parity','none');
