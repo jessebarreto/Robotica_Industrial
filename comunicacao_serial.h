@@ -2,7 +2,8 @@
  * comunicacao_serial.h
  *
  *  Created on: Jun 2, 2016
- *      Author: jesseh
+*	Authors: Dark Matter
+ *      	 Jesseh
  */
 
 #include <Arduino.h>
@@ -60,6 +61,8 @@ public:
 			i++;
 			c = Serial.read();
 		}
+
+		return _string_com;
 	}
 
 	void escreve_string(const char* string, unsigned char tam_string)
